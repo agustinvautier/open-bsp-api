@@ -26,7 +26,11 @@ async function getBusinessCredentials(
     });
   }
 
-  return data;
+  return {
+    waba_id: data.waba_id,
+    access_token: data.access_token ||
+      Deno.env.get("META_SYSTEM_USER_ACCESS_TOKEN")!,
+  };
 }
 
 export async function listTemplates(
