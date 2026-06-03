@@ -716,9 +716,18 @@ Deno.serve(async (req) => {
           }
 
           switch (toolInfo.type) {
-            case "custom":
+case "custom":
             case "function": {
               const result = await agentTool.implementation(args);
+
+              // Handoff: si el agente transfiere a un humano, pausar el bot
+              if (toolInfo.name === "transfer_to_human_agent") {
+                conv.extra.paused = new Date().toISOString();
+                await client
+                  .from("conversations")
+                  .update({ extra: conv.extra })
+                  .eq("id", conv.id);
+              }
 
               parts = [
                 {
