@@ -716,7 +716,7 @@ Deno.serve(async (req) => {
           }
 
           switch (toolInfo.type) {
-case "custom":
+            case "custom":
             case "function": {
               const result = await agentTool.implementation(args);
 
